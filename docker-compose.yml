@@ -5,12 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '80:3000'
     depends_on:
       - mongo
     environment:
-      ROOT_URL: ${APP_ROOT_URL:-http://localhost}
       MONGO_URL: mongodb://mongo:27017/meteor
       PORT: 3000
 
@@ -20,6 +17,11 @@ services:
       - --storageEngine=wiredTiger
     volumes:
       - data:/data/db
+
+networks:
+  default:
+    name: nginxproxymanagerstack_default
+    external: true
 
 volumes:
   data:
